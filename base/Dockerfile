@@ -2,7 +2,7 @@ ARG FEDORA_VERSION
 
 FROM fedora:${FEDORA_VERSION}
 
-ENV TZ=Europe/Berlin \
+ENV TZ=Asia/Tokyo \
   BASEDIR=/root/rasp
 RUN mkdir $BASEDIR
 WORKDIR $BASEDIR
