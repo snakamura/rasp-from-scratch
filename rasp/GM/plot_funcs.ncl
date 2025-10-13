@@ -1290,7 +1290,7 @@ begin
 
 	; Always make data files
 	local_mins = str_split_by_length(local_hr, 2)
-	do_plots = False
+	do_plots = True
 
 	load "getvars.ncl"	; Inline code, so variables are local => discarded on exit from procedure
 				; New wrfout file will reload
