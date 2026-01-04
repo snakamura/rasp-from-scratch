@@ -710,7 +710,7 @@ if( $GRIBFILE_MODEL eq 'GFS' ) { $GRIBFILE_MODEL = 'GFSN'; }
 #      The correct value is now determined automatically - See below
   $num_metgrid_levels{'GFSN'} = 27 ;
   $num_metgrid_levels{'GFSA'} = 48 ;   # Assumes Additional Parameters are also downloaded
-  $num_metgrid_levels{'ICON'} = 74 ;
+  $num_metgrid_levels{'ICON'} = 75 ;
   $num_metgrid_levels{'AVN'}  = 40 ;
   $num_metgrid_levels{'ETA'}  = 40 ;
   $num_metgrid_levels{'RUCH'} = 40 ;
