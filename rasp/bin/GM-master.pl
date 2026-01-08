@@ -1854,6 +1854,7 @@ $PROXY = "";
                 print $PRINTFH "***  Ungrib failed: See ungrib.log and LOG/ungrib.out\n" ;   
                 die "***  Ungrib failed: See ungrib.log and LOG/ungrib.out\n" ;   
               }
+              `avg_tsfc.exe > LOG/avg_tsfc.out 2>&1` ;
 
               # Run metgrid.exe Do we want to save old metgrid files?
               `rm -f met_em* > /dev/null 2>&1`;

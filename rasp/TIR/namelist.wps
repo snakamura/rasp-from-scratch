@@ -14,7 +14,7 @@
  j_parent_start       = 1,      25,
  e_we                 = 90,     206,
  e_sn                 = 90,     206,
- geog_data_res        = 'gmted2010_30s+corine_usgs_500m+bnu_soil_30s+modis_fpar+modis_lai+2m', 'SRTM+corine_usgs_250m+bnu_soil_30s+modis_fpar+modis_lai+30s',
+ geog_data_res        = 'gmted2010_30s+corine_usgs_500m+bnu_soil_30s+modis_fpar+modis_lai+2m+2.5m', 'SRTM+corine_usgs_250m+bnu_soil_30s+modis_fpar+modis_lai+30s+2m+2.5m',
  dx                   = 10000,
  dy                   = 10000,
  map_proj             = 'lambert',
@@ -35,6 +35,7 @@
 &metgrid
  opt_metgrid_tbl_path = '.'
  fg_name              = 'UNGRIB',
+ constants_name       = 'TAVGSFC',
  io_form_metgrid      = 2,
 /
 

@@ -1,14 +1,23 @@
 #!/bin/bash
 
 # check parameters
-usage="$0 <region> - execute runGM on <region>, create meteograms and copy results to right location"
-if [ $# -ne 1 ] ; then
-    echo "ERROR: require one region to run, no/too many arguments provided"
-    echo $usage;
-    exit 1;
+if [ $# -eq 0 ]; then
+    if [ -z "${REGION}" ]; then
+        echo "ERROR: $0 called without argument and REGION not set in environment"
+        echo "Provide region as first argument"
+	exit 1
+    fi
+elif [ $# -eq 1 ]; then
+    if [ -n "${REGION}" ]; then
+        echo "WARNING: REGION=${REGION} set in environment will be overridden by first argument $1"
+	REGION="$1"
+    fi
+else
+    echo "ERROR: $0 called with too many arguments"
+    exit 1
 fi
-REGION=$1
-if [ -z "${START_DAY}" ] ; then
+
+if [ -z "${START_DAY}" ]; then
     START_DAY=0;
 fi
 
@@ -24,8 +33,8 @@ rm -rf ${outDir}/*
 rm -rf ${logDir}/*
 rm -rf ${regionDir}/wrfout_d0*
 
-runDate="$(date +%Y-%m-%d)";
-runTime="$(date +%H-%M)";
+runDate="$(date +%Y-%m-%d)"
+runTime="$(date +%H-%M)"
 
 echo "Running runGM on area ${REGION}, startDay = ${START_DAY} and hour offset = ${OFFSET_HOUR}"
 runGM ${REGION}

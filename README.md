@@ -7,13 +7,13 @@ Contrary to most other available setups, a current WRF version is built from scr
 
 The building process is somewhat complicated as we want to keep the final image size as small as possible.
 Therefore, the build happens in 3 separate stages that result in intermediate images.
-Everything is managed with `docker-compose`, because it lets you configure certain variables in a `.env` file.
+Everything is managed with `docker compose`, because it lets you configure certain variables in a `.env` file.
 Copy or rename the provided `.env.template` and adapt the documented variables to your needs.
 
 ### Build base image
 
 ```shell
-$ docker-compose build base
+$ docker compose build base
 ```
 
 This image will be used in the next steps.
@@ -22,8 +22,8 @@ It is based on Fedora Linux and adds common utilities and libraries.
 ### Build WRF
 
 ```shell
-$ docker-compose build wrf_build
-$ docker-compose build wrf_prod
+$ docker compose build wrf_build
+$ docker compose build wrf_prod
 ```
 
 The version of WRF and WPS you have specified in `.env` are fetched from GitHub and compiled from source.
@@ -31,17 +31,26 @@ This can take a long time, so be patient and do not worry about the verbose outp
 
 WRF will be compiled with GNU compilers in smpar (i.e. OpenMP) mode (compilation option 33) and with basic nesting support (nesting option 1).
 
-The registry of WRF as well as some compile options are patched, this should be fairly robust but might break in future versions of WRF and WPS.
-We use the bare minimum of DrJack's patches to change WRF's registry, so that certain variables which are needed for the RASP plot routines appear in `wrfout` files.
-Note however, that DrJack's cloud calculation patches are not applied and thus, `wrf=CFRAC[L|M|H]` are not available (or wrong)!
+##### DrJack's patches
+
+The registry of WRF is patched to output some variables that are needed for computing RASP parameters; this should be fairly robust but might break in future versions.
+Note that DrJack's cloud calculation patches are not applied and thus, `wrf=CFRAC[L|M|H]` are not available (or wrong).
 Use `cfrac[l|m|h]` instead, since those are implemented in the current version of NCL.
 
-##### A note about compile optimizations and CPU architectures
-For best performance and to lower computing costs, WRF should be compiled such that it may use all the fancy new features of modern CPUs - this so called instruction set can be specified in `.env` before the build.
-For example, if the cloud computing provider you use for RASP has the latest AMD Zen3 CPUs, set `WRF_MARCH_PROD=znver3` (look up the GNU compile option `-march` for a list of supported architectures).
+##### Optimization flags
 
-However, `geogrid.exe` must be run in the next build step to set up the region.
-This is not possible if the machine you use for this build does not support the instruction set you have chosen above.
+Some default optimization flags for building WRF are overridden in `patch_configure_wrf.sh`; see `OPTFLAGS` for the currently used settings.
+You may need to change or omit these rather aggressive optimizations if `wrf.exe` fails.
+
+##### CPU architectures
+
+For best performance and to lower computing costs, WRF should be compiled such that it may use all the fancy new features of modern CPUs.
+The instruction set can be specified in `.env` before the build.
+For example, if your cloud computing provider or your own on-premise server has the latest AMD EPYC Turin (Zen5) CPUs, set `WRF_MARCH_PROD=znver5` (look up the GNU compile option `-march` for a list of supported architectures).
+
+But there's a catch.
+The program `geogrid.exe` must be run in the next build step to set up the region.
+This is not possible if the machine you use for building the next Docker image does not support the instruction set you have chosen above.
 No, you cannot build WPS without building WRF first.
 No, you cannot set a different architecture for the WPS build.
 Hence, there is unfortunately no other possibility but to build WRF a second time with `WRF_MARCH_BUILD=native` and to use `geogrid.exe` from this build.
@@ -53,7 +62,7 @@ Go to [UCAR's page](https://www2.mmm.ucar.edu/wrf/users/download/get_sources_wps
 See below if you want to use high-resolution SRTM data.
 
 ```shell
-$ docker-compose build rasp
+$ docker compose build rasp
 ```
 
 This sets up the directory structure for RASP runs with all necessary binaries and run tables from the WRF image as well as the RASP plotting environment.
@@ -86,7 +95,7 @@ Note that you can provide any custom tables that WRF/WPS recognizes in your regi
 ## Run 
 
 ```shell
-$ docker-compose run rasp
+$ docker compose run rasp
 ```
 
 `run -d` makes this a background process.
@@ -100,5 +109,5 @@ To leave the container without stopping the RASP run, type `Ctrl+P Ctrl+Q`.
 The results of your RASP run should be in `../results/OUT` if everything went well.
 Logs are available in `../results/LOG`.
 
-Check out [aufwin.de](https://aufwin.de/forecast), a web app for viewing data generated by RASP.
-You can get the source to this RASP viewer from [here](https://github.com/sfalmo/rasp-viewer) and configure site-specific settings to your needs.
+Check out the forecast on [aufwin.de](https://aufwin.de/forecast), a web app for viewing data generated by RASP based on this repo.
+You can get the source to this RASP viewer from [here](https://github.com/sfalmo/rasp-viewer); site-specific settings may need to be configured according to your setup.

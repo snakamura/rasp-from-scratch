@@ -109,4 +109,4 @@ VOLUME ["$BASEDIR/${REGION}/OUT", "$BASEDIR/${REGION}/LOG"]
 RUN echo export BASEDIR=$BASEDIR >> /etc/bashrc \
   && echo export PATH+=:\$BASEDIR/bin >> /etc/bashrc
 
-CMD runRasp.sh ${REGION}
+CMD ["runRasp.sh"]
