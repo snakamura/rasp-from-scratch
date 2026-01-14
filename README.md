@@ -39,23 +39,26 @@ Use `cfrac[l|m|h]` instead, since those are implemented in the latest version of
 
 #### Compilation fixes
 
-There are patches (`patch_configure_wps.sh`, `patch_configure_wrf.sh`) in order to make the compilation of WRF and WPS succeed.
-These might need to be adapted in future versions of WRF/WPS and/or the utilized compiler suite.
+There configuration files of WRF and WPS are patched (`patch_configure_wps.sh`, `patch_configure_wrf.sh`) in order to make the compilation of WRF and WPS succeed.
+The patches might need to be adapted in future versions of WRF/WPS or when using different compilers.
 
-#### Optimization flags
+#### Optimizations
 
 Some default optimization flags for building WRF are overridden in `patch_configure_wrf.sh`; see `OPTFLAGS` for the currently used settings.
 You may need to change or omit these rather aggressive optimizations if `wrf.exe` fails.
+
+If a segmentation fault occurs, you might need to increase the value of the environment variable `OMP_STACKSIZE` in `rasp.site.runenvironment` within your region folder (see below).
+
 If in doubt, try using the default optimizations of WRF (usually `-O2`).
 
 #### CPU architectures
 
 For best performance and to lower computing costs, WRF should be compiled such that it may use all the fancy new features of modern CPUs.
-The instruction set can be specified in `.env` before the build.
+The instruction set can be specified in `.env` before the build and will be applied to the `OPTFLAGS` before compiling WRF.
 For example, if your cloud computing provider or your own on-premise server has the latest AMD EPYC Turin (Zen5) CPUs, set `WRF_MARCH_PROD=znver5` (look up the GNU compile option `-march` for a list of supported architectures).
 
 But there's a catch.
-The program `geogrid.exe` must be run in the next build step to set up the region.
+The WPS program `geogrid.exe` must be run in the next build step to set up the region.
 This is not possible if the machine you use for building the next Docker image does not support the instruction set you have chosen above.
 No, you cannot build WPS without building WRF first.
 No, you cannot set a different architecture for the WPS build.
@@ -73,7 +76,7 @@ $ docker compose build rasp
 
 This sets up the directory structure for RASP runs with all necessary binaries and run tables from the WRF image as well as the RASP plotting environment.
 Copying and decompressing the geographical data will take a long time, so please be patient again.
-The region you have specified in `.env` is automatically initialized by running `geogrid.exe` and is set as the default region per an environment variable.
+The region you have specified in `.env` is automatically initialized by running `geogrid.exe` and is set as the default region via an environment variable.
 
 Finally, in a second build stage, only the necessary artifacts are copied over from the first stage so that the final image remains at an optimal size.
 
@@ -86,7 +89,7 @@ You can also disable the GeoTIFF generation in `rasp/bin/runRasp.sh` (remove the
 ### Adapt to your own region
 
 You can easily adapt the setup to your own region by providing a region folder similar to `TIR` (which is the region I use) and setting the name of this folder in `.env`.
-Remember to adapt region-specific aspects in the `rasp.*` files.
+Remember to go through all `rasp.*` files within this directory to adapt region-specific settings to your needs.
 
 You need the following data in your region folder:
  - `namelist.wps` for WPS which is used to set up the domain and pre-process meteorological data before every run
@@ -96,7 +99,7 @@ You need the following data in your region folder:
 If you use bespoke geography data (e.g. SRTM topography or custom land use data), provide your custom `GEOGRID.TBL`; see `TIR/GEOGRID.TBL` for an example where SRTM topography and CORINE land use data is incorporated.
 Otherwise, the default `GEOGRID.TBL` from WPS will be used.
 
-Note that you can provide any custom tables that WRF/WPS recognizes in your region directory yourself; the respective stock version will then be overwritten.
+Generally, you can provide any custom tables that WRF/WPS recognizes in your region directory yourself; the respective stock version will then be overwritten.
 
 ## Run 
 
@@ -109,10 +112,10 @@ If you want an interactive shell to your container (e.g. for testing), run
 $ docker compose run rasp /bin/bash
 ```
 
-Then, inside the container, execute the entry script `runRasp.sh` to run RASP for the default region.
-To leave the container without stopping the RASP run, type `Ctrl+P Ctrl+Q`.
+Then, inside the container, execute the entry script `runRasp.sh` to run RASP for the default region as specified by the environment variable `REGION`.
+To leave the container without stopping the RASP run, type <kbd>Ctrl</kbd>+<kbd>P</kbd> <kbd>Ctrl</kbd>+<kbd>Q</kbd>.
 
-## View the results
+## View results
 
 Upon successful completion, results should be in `../results/OUT`.
 Logs are available in `../results/LOG`.

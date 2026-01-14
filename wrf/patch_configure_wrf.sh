@@ -4,7 +4,7 @@
 
 echo "Patching configure.wrf, -march=$1"
 
-OPTFLAGS="-O3 -ffast-math -fno-protect-parens -fno-semantic-interposition -fstack-arrays -flto=auto -march=$1"
+OPTFLAGS="-Ofast -flto=auto -march=$1"
 
 awk -v optflags="$OPTFLAGS" '{
 v += sub(/^FCOPTIM\s*=.*/, "FCOPTIM = " optflags);
