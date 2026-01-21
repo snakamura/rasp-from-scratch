@@ -14,7 +14,7 @@ STDOUTFILE="${GRIBFTPSTDOUT}.${ifile}"
 STDERRFILE="${GRIBFTPSTDERR}.${ifile}"
 
 process() {
-	(curl --fail-with-body -sS --write-out "%output{>>${STDOUTFILE}}%{url}\n%{http_code}, %{size_download} bytes in %{time_total} seconds (%{speed_download} bytes per second).\n" "$1" | bzcat >> "${outdir}/${targetfile}") 2>> ${STDERRFILE}
+	(curl --retry 10 --fail-with-body -sS --write-out "%output{>>${STDOUTFILE}}%{url}\n%{http_code}, %{size_download} bytes in %{time_total} seconds (%{speed_download} bytes per second).\n" "$1" | bzcat >> "${outdir}/${targetfile}") 2>> ${STDERRFILE}
 }
 
 logprintout() {
