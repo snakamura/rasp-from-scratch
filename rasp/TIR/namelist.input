@@ -1,21 +1,21 @@
 &time_control
- run_days           = 0,
- run_hours          = 0,
- run_minutes        = 0,
- run_seconds        = 0,
+ run_days                            = 0,
+ run_hours                           = 0,
+ run_minutes                         = 0,
+ run_seconds                         = 0,
  reset_simulation_start              = .true.
- start_year         = 2026,2026,
- start_month        = 01,01,
- start_day          = 07,07,
- start_hour         = 04,04,
- start_minute       = 00,00,
- start_second       = 00,00,
- end_year           = 2026,2026,
- end_month          = 01,01,
- end_day            = 07,07,
- end_hour           = 19,19,
- end_minute         = 00,00,
- end_second         = 00,00,
+ start_year                          = 2026,2026,
+ start_month                         = 01,01,
+ start_day                           = 07,07,
+ start_hour                          = 04,04,
+ start_minute                        = 00,00,
+ start_second                        = 00,00,
+ end_year                            = 2026,2026,
+ end_month                           = 01,01,
+ end_day                             = 07,07,
+ end_hour                            = 19,19,
+ end_minute                          = 00,00,
+ end_second                          = 00,00,
  interval_seconds                    = 10800
  input_from_file                     = .true., .true.
  history_interval                    = 60,  60
@@ -43,7 +43,7 @@
  min_time_step                       = -1,   -1
  min_time_step_den                   =  0,    0
  adaptation_domain                   = 1
- time_step = 180,
+ time_step                           = 180,
  time_step_fract_num                 = 0
  time_step_fract_den                 = 1
  max_dom                             = 2
@@ -51,6 +51,17 @@
  e_sn                                = 90,     206
  e_vert                              = 52,     52
  p_top_requested                     = 5000
+ eta_levels                          = 1.0000, 0.9975, 0.9935, 0.9872, 0.9790,
+                                       0.9690, 0.9577, 0.9454, 0.9328, 0.9201,
+                                       0.9075, 0.8949, 0.8822, 0.8695, 0.8567,
+                                       0.8438, 0.8304, 0.8170, 0.8037, 0.7902,
+                                       0.7764, 0.7620, 0.7469, 0.7313, 0.7152,
+                                       0.6986, 0.6813, 0.6630, 0.6419, 0.6168,
+                                       0.5849, 0.5487, 0.5081, 0.4631, 0.4201,
+                                       0.3805, 0.3471, 0.3213, 0.3003, 0.2791,
+                                       0.2574, 0.2356, 0.2134, 0.1910, 0.1682,
+                                       0.1451, 0.1216, 0.0979, 0.0739, 0.0495,
+                                       0.0250, 0.0000
  dx                                  = 10000,  2000
  dy                                  = 10000,  2000
  grid_id                             = 1,      2
@@ -70,6 +81,9 @@
  ra_lw_physics                       = 1,      1
  ra_sw_physics                       = 1,      1
  radt                                = 10,     10
+ slope_rad                           = 1,      1
+ topo_shading                        = 1,      1
+ shadlen                             = 10000.
  sf_sfclay_physics                   = 5,      5
  sf_surface_physics                  = 2,      2
  sf_urban_physics                    = 0,      0
@@ -78,7 +92,7 @@
  bldt                                = 0,      0
  bl_mynn_edmf                        = 1,      1
  bl_mynn_edmf_mom                    = 1,      1
- bl_mynn_edmf_tke                    = 1,      1
+ bl_mynn_edmf_tke                    = 0,      0
  bl_mynn_mixlength                   = 2
  bl_mynn_mixscalars                  = 1,      1
  bl_mynn_output                      = 1,      1
