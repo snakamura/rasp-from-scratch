@@ -62,14 +62,14 @@ $LOCALTIME_ADJ{'YST'} = substr `date -d "$day days" +%z`,0,3; # Only whole hours
 $ISDST = ((localtime(time + $day*24*60*60))[8]); # Determine if the simulation date has DST
 if ($ISDST) {
     $hourBegin = 3;
-    $DOMAIN1_STARTHH{'YST'}[0]         = '03';        # must have grib file available for this time
-    $DOMAIN1_ENDHH{'YST'}[0]           = '18';
+    $DOMAIN1_STARTHH{'YST'}[0]         = '12';        # must have grib file available for this time
+    $DOMAIN1_ENDHH{'YST'}[0]           = '27';
     @{$PLOT_HHMMLIST{'YST'}[0]} =       ( '0600','0700','0800','0900','1000','1100','1200','1300','1400','1500','1600','1700','1800');
     @{$SAVE_PLOT_HHMMLIST{'YST'}[0]} =  ( '0600','0700','0800','0900','1000','1100','1200','1300','1400','1500','1600','1700','1800');
 } else {
     $hourBegin = 4;
-    $DOMAIN1_STARTHH{'YST'}[0]         = '04';        # must have grib file available for this time
-    $DOMAIN1_ENDHH{'YST'}[0]           = '19';
+    $DOMAIN1_STARTHH{'YST'}[0]         = '13';        # must have grib file available for this time
+    $DOMAIN1_ENDHH{'YST'}[0]           = '28';
     @{$PLOT_HHMMLIST{'YST'}[0]} =       ( '0700','0800','0900','1000','1100','1200','1300','1400','1500','1600','1700','1800','1900');
     @{$SAVE_PLOT_HHMMLIST{'YST'}[0]} =  ( '0700','0800','0900','1000','1100','1200','1300','1400','1500','1600','1700','1800','1900');
 }
