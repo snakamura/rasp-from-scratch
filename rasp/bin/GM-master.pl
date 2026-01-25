@@ -1910,8 +1910,12 @@ $PROXY = "";
               # Determine num_metgrid_levels from a met_em.d01 file
               my $filename = `ls met_em.d01*.nc | tail -1`;
               chomp $filename;
-              $n_metgrid_levels = `ncdump -h $filename | grep -i 'BOTTOM-TOP_GRID_DIMENSION' | sed -e 's/\t//' -e 's/:BOTTOM-TOP_GRID_DIMENSION/num_metgrid_levels/' -e 's/ ;//'`;
+              $n_metgrid_levels = `ncdump -h $filename | grep -i 'BOTTOM-TOP_GRID_DIMENSION' | sed -e 's/:BOTTOM-TOP_GRID_DIMENSION/num_metgrid_levels/' -e 's/ ;//'`;
+	      chomp $n_metgrid_levels;
+              $n_metgrid_soil_levels = `ncdump -h $filename | grep -i 'NUM_METGRID_SOIL_LEVELS' | sed -e 's/:NUM_METGRID_SOIL_LEVELS/num_metgrid_soil_levels/' -e 's/ ;//'`;
+	      chomp $n_metgrid_soil_levels;
               print $PRINTFH "      $n_metgrid_levels";
+              print $PRINTFH "      $n_metgrid_soil_levels";
             
               for ( $idomain=2 ; $idomain<=$MAXDOMAIN{$regionname}[$IWINDOW] ; $idomain++ ) {
                 my $enddeltamins ;
@@ -1954,6 +1958,7 @@ $PROXY = "";
                 if($line =~ m/end_minute/i)         {$namelistlines[$iline] = sprintf(" %s\n", $end_minute  ); }
                 if($line =~ m/end_second/i)         {$namelistlines[$iline] = sprintf(" %s\n", $end_second  ); }
                 if($line =~ m/num_metgrid_levels/i) {$namelistlines[$iline] = sprintf(" %s\n", $n_metgrid_levels); }
+                if($line =~ m/num_metgrid_soil_levels/i) {$namelistlines[$iline] = sprintf(" %s\n", $n_metgrid_soil_levels); }
                 ### Update TIME_STEP in namelist.template if $DOMAIN1_TIMESTEP is specified in parameters file, 
                 ### note $regionname global variable used in parameters file
                 if ( defined $DOMAIN1_TIMESTEP{$regionname}[$IWINDOW] ) {
