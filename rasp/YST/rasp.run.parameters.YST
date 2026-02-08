@@ -1,0 +1,79 @@
+#############################################################################
+################## RUN-ARGUMENT-SPECIFIC RASP PARAMETERS ####################
+#############################################################################
+### For updated information on these model parameters see                 ###
+### http://www.drjack.info/twiki/bin/view/RASPop/RunParametersDescription ###
+#############################################################################
+
+# SET REGIONS PROCESSED BY THIS RUN
+@REGION_DOLIST = ( 'YST' );
+
+# SET MODEL USED FOR DOWNLOADED GRIB FILES
+
+$GRIBFILE_MODEL  = 'GFSA' ;
+$GRIB_LEFT_LON   =  133 ;
+$GRIB_RIGHT_LON  =  148 ;
+$GRIB_BOTTOM_LAT =  30 ;
+$GRIB_TOP_LAT    =  43 ;
+
+$LSEND = 0 ;
+$LSAVE = 0 ;
+
+##################################################################
+#############  START OF REGION DEPENDENT PARAMETERS  #############
+# SET RUN TYPE
+# LRUN_WINDOW 0= no_windowing 2= windowing_run
+$LRUN_WINDOW{'YST'} = 0 ;
+
+# SET BASIC PARAMETER LIST
+@{$PARAMETER_DOLIST{'YST'}} = ( 'wstar','bsratio','wstar_bsratio','hglider','dglider','hwcrit','dwcrit','hbl','dbl','bltopvariab','wblmaxmin','zwblmaxmin','sfcsunpct','sfcshf','sfctemp','sfcdewpt','sfcwind0','blwind','bltopwind','blwindshear','zsfclcldif','zsfclcl','zsfclclmask','zblcldif','zblcl','zblclmask','blicw','blcwbase','blcloudpct','cfracl','cfracm','cfrach','rain1','cape','press950','press850','press700','press500','pfd_tot' );
+
+# SET GRIB FILE PROCESSING
+# GRIBFILES_PER_FORECAST_PERIOD IS NUMBER OF GRIB FILES PROCESSED AT SAME TIME
+$GRIBFILES_PER_FORECAST_PERIOD{'YST'} = 4 ;
+# BLIPMAPFILEDOLIST LISTS ALL GRIB FILES NEEDED
+
+# SET DOMAIN PARAMETERS FOR STAGE1 [NON-WINDOW] ITERATION
+$FORECAST_PERIODHRS{'YST'}[0]              = 9;   # used only by initialization programs
+$BOUNDARY_UPDATE_PERIODHRS{'YST'}[0]       = 3;   # used only by initialization programs
+$NDOWN_BOUNDARY_UPDATE_PERIODHRS{'YST'}[0] = 0;   # should always be 0 for non-windowed case
+
+# SET DOMAIN START/END TIMES
+$DOMAIN1_TIMESTEP{'YST'}[0]        = 180;
+$DOMAIN2_START_DELTAMINS{'YST'}[0] = 0;           # if non-zero, must set namelist.template INPUT_FROM_FILE=false
+$DOMAIN2_END_DELTAMINS{'YST'}[0]   = 0;           # relative to domain1
+
+@{$PLOT_IMAGE_SIZE{'YST'}[0]} = ( '', '1600x1600' );
+
+$day = 0;
+$offset = 0;
+if(defined $ENV{'START_DAY'}) {
+    $day = int($ENV{'START_DAY'});
+}
+if(defined $ENV{'OFFSET_HOUR'}) {
+    $offset = int($ENV{'OFFSET_HOUR'});
+}
+
+# JST = UTC+9, no DST
+$LOCALTIME_ID{'YST'}  = 'JST';
+$LOCALTIME_ADJ{'YST'} = '+09';
+
+$hourBegin = 0;
+
+$DOMAIN1_STARTHH{'YST'}[0]         = '00';        # must have grib file available for this time
+$DOMAIN1_ENDHH{'YST'}[0]           = '09';
+@{$PLOT_HHMMLIST{'YST'}[0]} =       ( '0000','0100','0200','0300','0400','0500','0600','0700','0800','0900');
+@{$SAVE_PLOT_HHMMLIST{'YST'}[0]} =  ( '0000','0100','0200','0300','0400','0500','0600','0700','0800','0900');
+
+$hourBegin += 24*$day - $offset;
+
+%GRIBFILE_DOLIST = ( 'YST'   => [ sprintf("%dZ+%d",$offset,$hourBegin),
+                                  sprintf("%dZ+%d",$offset,$hourBegin+3),
+                                  sprintf("%dZ+%d",$offset,$hourBegin+6),
+                                  sprintf("%dZ+%d",$offset,$hourBegin+9) ],);
+
+##############  END OF REGION DEPENDENT PARAMETERS  ##############
+##################################################################
+##########    ADDITIONS MUST BE MADE ABOVE THIS LINE    ##########
+##################################################################
+1.;
