@@ -47,3 +47,4 @@ services:
     environment:
       - START_DAY=${START_DAY:-0}
       - OFFSET_HOUR=${OFFSET_HOUR:-0}
+      - TZ=${TZ:-Europe/Berlin}
