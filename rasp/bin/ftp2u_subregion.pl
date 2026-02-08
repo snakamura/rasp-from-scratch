@@ -28,10 +28,6 @@ my $MAX_TRIES = 20;
 # the number of seconds to sleep between unsuccessful tries
 my $SLEEP_SECONDS = 60;
 
-# the date to try to get this file for
-my $curdate = `date -u +%Y%m%d`;
-chomp $curdate;
-
 # read the argument list
 my (
   $curlexe,
@@ -45,8 +41,19 @@ my (
   $GRIBFTPSTDERR,
   $outdir,
   ### PRINTOUT
-  $printoutfilename
+  $printoutfilename,
+  $gribdirectory
 ) = split ',', $ARGV[0];
+
+# the date to try to get this file for
+# extract from the grib directory (e.g. "gfs.20260203/00") if passed, otherwise use today
+my $curdate;
+if ( defined $gribdirectory && $gribdirectory =~ /gfs\.(\d{8})/ ) {
+  $curdate = $1;
+} else {
+  $curdate = `date -u +%Y%m%d`;
+  chomp $curdate;
+}
 #4debug: print "debug: $targetfile: $curlexe,$targetfile,$leftlong,$rightlong,$toplat,$bottomlat,$ifile,$GRIBFTPSTDOUT,$GRIBFTPSTDERR,$outdir,$curdate\n";
 
 # the time of the GFS model run, i.e. one of 00, 06, 12, 18.

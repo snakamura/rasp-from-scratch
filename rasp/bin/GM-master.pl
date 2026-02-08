@@ -1395,7 +1395,8 @@ $PROXY = "";
          $GRIBFTPSTDOUT,
          $GRIBFTPSTDERR,
          $GRIBDIR,
-         $childprintoutfilename
+         $childprintoutfilename,
+         $filenamedirectory
         );
         $gribgetcommand = "ftp2u_subregion.pl";
       }
@@ -2279,7 +2280,8 @@ $PROXY = "";
       $lastfilename = $filename;
       ### to only create 1 blipmap: if($foundfilecount==1) &final_processing;
       ### TEST IF SWITCHING TIME SHUTDOWN NEEDED - similar test also done just after gribget
-      if( $RUNTYPE eq '-M' || $RUNTYPE eq '-m' ) {
+      ### Skip for forced julian day (-J) since the run day always differs from today
+      if( !defined $julianday_forced && ($RUNTYPE eq '-M' || $RUNTYPE eq '-m') ) {
         $switchingtestjda2z = `date -u +%d` ; jchomp($switchingtestjda2z);
         $switchingtesthhmmz = `date -u +%H:%M` ; jchomp($switchingtesthhmmz);
         $switchingtesttimez = &hhmm2hour( $switchingtesthhmmz );

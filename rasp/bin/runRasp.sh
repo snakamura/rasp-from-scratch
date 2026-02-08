@@ -37,7 +37,13 @@ runDate="$(date +%Y-%m-%d)"
 runTime="$(date +%H-%M)"
 
 echo "Running runGM on area ${REGION}, startDay = ${START_DAY} and hour offset = ${OFFSET_HOUR}"
-runGM ${REGION}
+if [ "${START_DAY}" -lt 0 ]; then
+    target_jday=$(date -u -d "${START_DAY} days" +%j_%y)
+    echo "START_DAY=${START_DAY} -> forcing julian day ${target_jday}"
+    START_DAY=0 runGM ${REGION} -J ${target_jday}
+else
+    runGM ${REGION}
+fi
 
 #Generate the meteogram images
 echo "Running meteogram on $(date)"
