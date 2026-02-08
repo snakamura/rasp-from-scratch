@@ -27,6 +27,7 @@ $LRUN_WINDOW{'YST'} = 0 ;
 
 # SET BASIC PARAMETER LIST
 @{$PARAMETER_DOLIST{'YST'}} = ( 'wstar','bsratio','wstar_bsratio','hglider','dglider','hwcrit','dwcrit','hbl','dbl','bltopvariab','wblmaxmin','zwblmaxmin','sfcsunpct','sfcshf','sfctemp','sfcdewpt','sfcwind0','blwind','bltopwind','blwindshear','zsfclcldif','zsfclcl','zsfclclmask','zblcldif','zblcl','zblclmask','blicw','blcwbase','blcloudpct','cfracl','cfracm','cfrach','rain1','cape','press950','press850','press700','press500','pfd_tot' );
+push @{$PARAMETER_DOLIST{'YST'}}, ( 'sounding1' );
 
 # SET GRIB FILE PROCESSING
 # GRIBFILES_PER_FORECAST_PERIOD IS NUMBER OF GRIB FILES PROCESSED AT SAME TIME
