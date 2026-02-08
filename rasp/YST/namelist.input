@@ -47,8 +47,8 @@
  time_step_fract_num                 = 0
  time_step_fract_den                 = 1
  max_dom                             = 2
- e_we                                = 51,     101
- e_sn                                = 51,     101
+ e_we                                = 71,     151
+ e_sn                                = 71,     151
  e_vert                              = 52,     52
  p_top_requested                     = 5000
  eta_levels                          = 1.0000, 0.9975, 0.9935, 0.9872, 0.9790,
@@ -66,8 +66,8 @@
  dy                                  = 10000,  2000
  grid_id                             = 1,      2
  parent_id                           = 0,      1
- i_parent_start                      = 1,      16
- j_parent_start                      = 1,      16
+ i_parent_start                      = 1,      21
+ j_parent_start                      = 1,      21
  parent_grid_ratio                   = 1,      5
  parent_time_step_ratio              = 1,      5
  feedback                            = 1
