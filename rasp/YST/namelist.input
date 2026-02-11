@@ -123,7 +123,7 @@
  non_hydrostatic                     = .true., .true.
  moist_adv_opt                       = 1,      1
  scalar_adv_opt                      = 1,      1
- gwd_opt                             = 3,      3
+ gwd_opt                             = 3,      0
 /
 
 &bdy_control
