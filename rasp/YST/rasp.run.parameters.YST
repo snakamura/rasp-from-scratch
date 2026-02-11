@@ -66,13 +66,18 @@ $DOMAIN1_ENDHH{'YST'}[0]           = '12';
 @{$PLOT_HHMMLIST{'YST'}[0]} =       ( '0000','0100','0200','0300','0400','0500','0600','0700','0800','0900','1000','1100','1200');
 @{$SAVE_PLOT_HHMMLIST{'YST'}[0]} =  ( '0000','0100','0200','0300','0400','0500','0600','0700','0800','0900','1000','1100','1200');
 
-$hourBegin += 24*$day - $offset;
+$hourBegin = $hourBegin + 24*$day - $offset;
+$prefix = '';
+if ($hourBegin < 0) {
+    $hourBegin += 24;
+    $prefix = '-';
+}
 
-%GRIBFILE_DOLIST = ( 'YST'   => [ sprintf("%dZ+%d",$offset,$hourBegin),
-                                  sprintf("%dZ+%d",$offset,$hourBegin+3),
-                                  sprintf("%dZ+%d",$offset,$hourBegin+6),
-                                  sprintf("%dZ+%d",$offset,$hourBegin+9),
-                                  sprintf("%dZ+%d",$offset,$hourBegin+12) ],);
+%GRIBFILE_DOLIST = ( 'YST' => [ sprintf("${prefix}%dZ+%d",$offset,$hourBegin),
+                                 sprintf("${prefix}%dZ+%d",$offset,$hourBegin+3),
+                                 sprintf("${prefix}%dZ+%d",$offset,$hourBegin+6),
+                                 sprintf("${prefix}%dZ+%d",$offset,$hourBegin+9),
+                                 sprintf("${prefix}%dZ+%d",$offset,$hourBegin+12) ],);
 
 ##############  END OF REGION DEPENDENT PARAMETERS  ##############
 ##################################################################
