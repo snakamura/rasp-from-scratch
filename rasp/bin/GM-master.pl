@@ -1208,6 +1208,10 @@ $PROXY = "";
       $gribavailadd = $gribavailhrzinc * $ftime;
       ### note that fileanaltime is 2 digit ie 00,... not 0,...
       $gribavailhrz{$ifile} = $gribavailhrzoffset + $gribavailhrz0{$fileanaltime} + $gribavailadd ;
+      ### previous-day files (- prefix) were available yesterday
+      if ( $ifile =~ /^ *\-/ ) {
+        $gribavailhrz{$ifile} -= 24;
+      }
       if ($LPRINT>1) { printf $PRINTFH "   Scheduled availability: %7s @ %5sZ\n",$ifile,&hour2hhmm($gribavailhrz{$ifile}); }
     }
     $filevalidday = $filevaliddays{$ifile} ;

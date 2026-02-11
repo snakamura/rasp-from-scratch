@@ -78,13 +78,18 @@ if ($ISDST) {
 }
 
 $hourBegin += 24*$day - $offset;
+$prefix = '';
+if ($hourBegin < 0) {
+    $hourBegin += 24;
+    $prefix = '-';
+}
 
-%GRIBFILE_DOLIST = ( 'TIR'   => [ sprintf("%dZ+%d",$offset,$hourBegin),
-                                  sprintf("%dZ+%d",$offset,$hourBegin+3),
-                                  sprintf("%dZ+%d",$offset,$hourBegin+6),
-                                  sprintf("%dZ+%d",$offset,$hourBegin+9),
-                                  sprintf("%dZ+%d",$offset,$hourBegin+12),
-                                  sprintf("%dZ+%d",$offset,$hourBegin+15) ],);
+%GRIBFILE_DOLIST = ( 'TIR'   => [ sprintf("${prefix}%dZ+%d",$offset,$hourBegin),
+                                   sprintf("${prefix}%dZ+%d",$offset,$hourBegin+3),
+                                   sprintf("${prefix}%dZ+%d",$offset,$hourBegin+6),
+                                   sprintf("${prefix}%dZ+%d",$offset,$hourBegin+9),
+                                   sprintf("${prefix}%dZ+%d",$offset,$hourBegin+12),
+                                   sprintf("${prefix}%dZ+%d",$offset,$hourBegin+15) ],);
 
 ##############  END OF REGION DEPENDENT PARAMETERS  ##############
 ##################################################################
