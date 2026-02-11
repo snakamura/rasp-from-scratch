@@ -56,6 +56,9 @@ perl /root/rasp/bin/title2json.pl /root/rasp/${REGION}/OUT &> ${logDir}/title2js
 # Generate geotiffs from data files
 python3 /root/rasp/bin/rasp2geotiff.py /root/rasp/${REGION} &> ${logDir}/rasp2geotiff.out
 
+# Copy wrfout files to OUT directory for rasp-viewer soundings
+cp "${regionDir}"/wrfout_d02_* "${outDir}/" &> ${logDir}/wrfout_copy.out
+
 # Move some additional log files
 mv ${regionDir}/wrf.out ${logDir}
 mv ${regionDir}/metgrid.log ${logDir}
